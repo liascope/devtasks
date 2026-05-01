@@ -1,0 +1,49 @@
+name: PR Auto Reply
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  greet:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Comment on PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const association = context.payload.pull_request.author_association;
+            const isFirstTime = association === 'FIRST_TIME_CONTRIBUTOR' || association === 'NONE';
+            
+            const greeting = isFirstTime 
+              ? `🌟 **Welcome to the community!** We're so excited to have you make your first contribution here! 🚀`
+              : `👋 Welcome back! Thanks for continuing to help improve this project 💙`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `${greeting}
+
+We appreciate you taking the time to improve this project 💙
+
+### ✅ Before Review, please make sure:
+- 📸 You have added a **screenshot** of your UI changes
+- 🎨 Your design follows the **Monochrome theme (Black/Grey/White)**
+- 🧾 Your PR title follows the format:
+  \`ui: short description\`
+- 🔗 You have linked the issue using:
+  \`Closes #issue_number\`
+
+### ⭐ Support the Project
+- ⭐ Star the repository (optional but appreciated)
+- ⭐ Optionally support more projects:
+  - [Jazzahenna](https://github.com/shamilahmdt/Jazzahenna)
+  - [shamilahmdt.github.io](https://github.com/shamilahmdt/shamilahmdt.github.io)
+
+### 🚀 What happens next?
+A maintainer will review your PR soon. If changes are needed, we’ll guide you!
+
+Thanks again for contributing 🙌`
+            })
+

@@ -1,46 +1,83 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-export default function Dashboard() {
+const Dashboard = () => {
+  const cards = [
+    {
+      title: "Add Tasks",
+      description: "Create new development tasks and assignments.",
+      path: "/add-tasks",
+      icon: (
+        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+        </svg>
+      )
+    },
+    {
+      title: "Task List",
+      description: "View and manage your current project roadmap.",
+      path: "/list-tasks",
+      icon: (
+        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      )
+    },
+    {
+      title: "Delete History",
+      description: "Clear completed tasks and system logs.",
+      path: "/delete-history",
+      icon: (
+        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+        </svg>
+      )
+    }
+  ];
+
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center font-sans">
-      <div className="bg-white shadow-xl rounded-2xl p-6 w-full max-w-md">
+    <div className="h-screen w-full bg-white text-black font-sans overflow-hidden flex flex-col p-8">
+      <div className="max-w-6xl w-full mx-auto flex flex-col h-full">
+        <header className="shrink-0 mb-12 flex justify-between items-end">
+          <div>
+            <h1 className="text-4xl font-black uppercase tracking-tighter mb-2">Dashboard</h1>
+            <p className="text-gray-400 font-medium">Manage your engineering workflow</p>
+          </div>
+          <Link to="/" className="text-xs font-bold uppercase tracking-widest hover:underline pb-1">Exit to Site</Link>
+        </header>
 
-        <h1 className="text-2xl font-bold text-center mb-4">
-          DevTasks
-        </h1>
-
-        {/* Input */}
-        <div className="flex gap-2 mb-4">
-          <input
-            type="text"
-            placeholder="Add a task..."
-            className="flex-1 border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
-          />
-          <button className="bg-black text-white px-4 rounded-lg hover:bg-gray-800 transition-colors">
-            Add
-          </button>
+        <div className="grow flex items-center justify-center">
+          <div className="grid md:grid-cols-3 gap-8 w-full">
+            {cards.map((card) => (
+              <Link 
+                key={card.title} 
+                to={card.path}
+                className="group relative p-8 bg-gray-50 border border-gray-100 rounded-3xl hover:bg-black hover:text-white transition-all duration-500 transform hover:-translate-y-2 flex flex-col justify-between h-[320px]"
+              >
+                <div>
+                  <div className="mb-8 p-3 w-fit bg-white text-black rounded-xl group-hover:bg-white/10 group-hover:text-white transition-colors shadow-sm">
+                    {card.icon}
+                  </div>
+                  <h2 className="text-xl font-black mb-3 uppercase tracking-tight">{card.title}</h2>
+                  <p className="text-sm font-medium text-gray-500 group-hover:text-gray-400 transition-colors leading-relaxed">
+                    {card.description}
+                  </p>
+                </div>
+                <div className="flex items-center text-xs font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
+                  Explore <span className="ml-2 group-hover:translate-x-1 transition-transform">→</span>
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
 
-        {/* Task List */}
-        <div className="space-y-2">
-
-          {/* Active Task */}
-          <div className="flex justify-between bg-gray-50 p-3 rounded-lg border border-gray-100 hover:border-gray-200 transition-all">
-            <span>Learn React basics</span>
-            <button className="text-red-500 hover:text-red-600 transition-colors">✕</button>
-          </div>
-
-          {/* Completed Task */}
-          <div className="flex justify-between bg-gray-50 p-3 rounded-lg border border-gray-100 opacity-60">
-            <span className="line-through text-gray-400">
-              Build UI design
-            </span>
-            <button className="text-red-500 hover:text-red-600 transition-colors">✕</button>
-          </div>
-
+        {/* Decorative element */}
+        <div className="shrink-0 mt-8 pt-8 border-t border-gray-50 opacity-10">
+          <h2 className="text-[12vw] font-black tracking-tighter leading-none select-none text-center">FLOW</h2>
         </div>
-
       </div>
     </div>
   );
-}
+};
+
+export default Dashboard;

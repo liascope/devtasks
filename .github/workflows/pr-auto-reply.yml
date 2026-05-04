@@ -1,35 +1,40 @@
 name: PR Auto Reply
 
 on:
-  pull_request:
-    types: [opened]
+  pull_request_target:
+    types: [opened, reopened]
 
 jobs:
   greet:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
+      contents: read
     steps:
       - name: Comment on PR
         uses: actions/github-script@v7
         with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            if (!context.payload.pull_request) {
-              console.log("Not a pull request, skipping...");
+            const { owner, repo, number } = context.issue;
+            const pull_request = context.payload.pull_request;
+            
+            if (!pull_request) {
+              console.log("No pull request found in payload.");
               return;
             }
             
-            const association = context.payload.pull_request.author_association;
+            const association = pull_request.author_association;
             const isFirstTime = association === 'FIRST_TIME_CONTRIBUTOR' || association === 'NONE';
             
             const greeting = isFirstTime 
               ? `🌟 **Welcome to the community!** We're so excited to have you make your first contribution here! 🚀`
               : `👋 Welcome back! Thanks for continuing to help improve this project 💙`;
 
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
+            await github.rest.issues.createComment({
+              issue_number: number,
+              owner: owner,
+              repo: repo,
               body: `${greeting}
 
 We appreciate you taking the time to improve this project 💙
@@ -37,10 +42,8 @@ We appreciate you taking the time to improve this project 💙
 ### ✅ Before Review, please make sure:
 - 📸 You have added a **screenshot** of your UI changes
 - 🎨 Your design follows the **Monochrome theme (Black/Grey/White)**
-- 🧾 Your PR title follows the format:
-  \`ui: short description\`
-- 🔗 You have linked the issue using:
-  \`Closes #issue_number\`
+- 🧾 Your PR title follows the format: \`ui: short description\`
+- 🔗 You have linked the issue using: \`Closes #issue_number\`
 
 ### ⭐ Support the Project
 - ⭐ Star the repository (optional but appreciated)
@@ -52,5 +55,4 @@ We appreciate you taking the time to improve this project 💙
 A maintainer will review your PR soon. If changes are needed, we’ll guide you!
 
 Thanks again for contributing 🙌`
-            })
-
+            });

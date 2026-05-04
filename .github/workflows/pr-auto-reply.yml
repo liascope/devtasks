@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
+      issues: write
       contents: read
     steps:
       - name: Comment and React
@@ -16,7 +17,9 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const { owner, repo, number } = context.issue;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const number = context.issue.number;
             const pr = context.payload.pull_request;
             
             if (!pr) return;

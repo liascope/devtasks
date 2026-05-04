@@ -1,0 +1,44 @@
+name: Issue Auto Reply
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  greet:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Comment and React
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { owner, repo, number } = context.issue;
+            const issue = context.payload.issue;
+            const author = issue.user.login;
+            
+            // Add reactions
+            await github.rest.reactions.createForIssue({
+              owner, repo, issue_number: number, content: 'heart'
+            });
+
+            const message = `👋 Hi @${author}! Thanks for opening this issue for **DevTasks**.
+            
+A maintainer will review your report shortly. Please ensure you've provided enough detail for us to reproduce the issue.
+
+---
+
+### ⭐ Support the Project
+- ⭐ Star the repo
+- ⭐ Support more: [Jazzahenna](https://github.com/shamilahmdt/Jazzahenna) · [shamilahmdt.github.io](https://github.com/shamilahmdt/shamilahmdt.github.io)
+
+Thanks for helping us improve!`;
+
+            await github.rest.issues.createComment({
+              issue_number: number,
+              owner,
+              repo,
+              body: message
+            });

@@ -12,7 +12,7 @@ const AddTasks = () => {
 
   return (
     <div className="min-h-screen bg-[#FDFDFD] flex items-center justify-center p-6 selection:bg-black selection:text-white font-sans">
-      <div className="w-full max-w-[480px] bg-white rounded-[3rem] p-12 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.06)] border border-neutral-100 flex flex-col items-center text-center relative overflow-hidden">
+      <div className="w-full max-w-[480px] bg-white rounded-5xl p-12 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.06)] border border-neutral-100 flex flex-col items-center text-center relative overflow-hidden">
         
         {/* Top Accent */}
         <div className="absolute top-0 left-0 w-full h-1.5 bg-black"></div>
@@ -44,14 +44,14 @@ const AddTasks = () => {
               value={task}
               onChange={(e) => setTask(e.target.value)}
               placeholder="e.g. Optimize database queries"
-              className="w-full bg-neutral-50 border-2 border-transparent rounded-[2rem] px-8 py-5 text-black placeholder:text-neutral-300 focus:bg-white focus:border-black transition-all duration-300 outline-none font-semibold text-lg shadow-sm"
+              className="w-full bg-neutral-50 border-2 border-transparent rounded-4xl px-8 py-5 text-black placeholder:text-neutral-300 focus:bg-white focus:border-black transition-all duration-300 outline-none font-semibold text-lg shadow-sm"
               autoFocus
             />
           </div>
 
           <button 
             type="submit"
-            className="group w-full bg-black text-white font-black py-6 rounded-[2rem] shadow-2xl shadow-black/40 hover:bg-neutral-800 active:scale-[0.98] transition-all duration-500 flex items-center justify-center space-x-4 text-xl tracking-wide"
+            className="group w-full bg-black text-white font-black py-6 rounded-4xl shadow-2xl shadow-black/40 hover:bg-neutral-800 active:scale-[0.98] transition-all duration-500 flex items-center justify-center space-x-4 text-xl tracking-wide"
           >
             <span>CREATE TASK</span>
             <div className="bg-white/20 p-2 rounded-full group-hover:translate-x-1 transition-transform duration-300">
